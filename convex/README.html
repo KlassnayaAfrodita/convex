@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Е.А. Роганов" />
+  <title>Проект «Выпуклая оболочка»</title>
+  <link rel="stylesheet" href="https://edu-support.mephi.ru/Stylesheets/markdown.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+<h1 class="title">Проект «Выпуклая оболочка»</h1>
+<p class="author">Е.А. Роганов</p>
+</header>
+<h3 id="постановка-задачи">Постановка задачи</h3>
+<p>Необходимо написать программу, находящую выпуклую оболочку последовательно поступающих точек плоскости и вычисляющую её периметр и площадь. Решение должно быть индуктивным, что означает определение выпуклой оболочки и вычисление её характеристик сразу после поступления очередной точки с использованием методов теории индуктивных функций.</p>
+<h3 id="краткий-комментарий-к-решению">Краткий комментарий к решению</h3>
+<ul>
+<li>Ключевое понятие проекта: <em>освещённость ребра из точки</em></li>
+<li>Вспомогательные классы:
+<ul>
+<li><code>R2Point</code> — точка на плоскости</li>
+<li><code>Deq</code> — контейнер дек (double ended queue)</li>
+</ul></li>
+<li>Основные классы:
+<ul>
+<li><code>Figure</code> — «абстрактная» фигура</li>
+<li><code>Void</code> — нульугольник</li>
+<li><code>Point</code> — одноугольник</li>
+<li><code>Segment</code> — двуугольник</li>
+<li><code>Polygon</code> — многоугольник</li>
+</ul></li>
+<li>Файлы проекта:
+<ul>
+<li><code>README.md</code> — данный файл</li>
+<li><code>README.html</code> — полученный из файла <code>README.md</code> <code>html</code>-файл</li>
+<li><code>r2point.py</code> — реализация класса <code>R2Point</code></li>
+<li><code>deq.py</code> — реализация класса <code>Deq</code></li>
+<li><code>convex.py</code> — реализация основных классов</li>
+<li><code>run_convex.py</code> — файл запуска</li>
+<li><code>tk_drawer.py</code> — интерфейс к графической библиотеке</li>
+<li><code>run_tk_convex.py</code> — файл запуска с использованием графики</li>
+<li><code>tests/test_r2point.py</code> — тесты к классу <code>R2Point</code></li>
+<li><code>tests/test_convex.py</code> — тесты к основным классам</li>
+</ul></li>
+</ul>
+<p>Файлы <code>run_tk_convex.py</code> и <code>run_tk_convex.py</code> являются исполняемыми (они имеют бит <code>x</code>), в первой строке каждого из них используется <a href="https://ru.wikipedia.org/wiki/%D0%A8%D0%B5%D0%B1%D0%B0%D0%BD%D0%B3_(Unix)">шебанг</a> и команда <code>env</code> с опцией (ключом) <code>-S</code>. Это обеспечивает передачу интерпретатору языка Python опции (ключа) <code>-B</code>, отменяющего генерацию <code>pyc</code>-файлов в директории <code>__pycache__</code>.</p>
+<h3 id="соблюдение-соглашений-о-стиле-программного-кода">Соблюдение соглашений о стиле программного кода</h3>
+<p>Для языка Python существуют <a href="https://www.python.org/dev/peps/pep-0008/">соглашения о стиле кода</a>. Они являются лишь рекомендациями (интерпретатор игнорирует их нарушение), но основную их часть при написании программ целесообразно соблюдать. Существует простой способ проверить соблюдение считающегося правильным стиля записи кода с помощью утилиты (программы) <code>pycodestyle</code>. Утилита <code>yapf</code> позволяет даже изменить код в соответствии с этими соглашениями.</p>
+<p>Команда</p>
+<pre><code>pycodestyle r2point.py</code></pre>
+<p>позволяет, например, проверить соблюдение стиля для файла <code>r2point.py</code>. С помощью очень мощной и часто используемой утилиты <code>find</code> проверить корректность стиля всех файлов проекта можно так:</p>
+<pre><code>find . -name &#39;*.py&#39; -exec pycodestyle {} \;</code></pre>
+<p>Эта команда находит все файлы с расширением <code>py</code> и запускает программу <code>pycodestyle</code> последовательно для каждого из них.</p>
+<h3 id="запуск-тестов">Запуск тестов</h3>
+<p>Уже известная нам команда (см. материал, посвящённый тестированию программ)</p>
+<pre><code>python -B -m pytest -p no:cacheprovider tests</code></pre>
+<p>запускает pytest, выполняя все начинающиеся с <code>test</code> методы классов, имена которых начинаются с <code>Test</code>, содержащиеся во всех файлах <code>test_*.py</code> директории <code>tests</code>.</p>
+<h3 id="запуск-программы">Запуск программы</h3>
+<p><code>./run_convex.py</code></p>
+<h3 id="запуск-программы-с-графическим-интерфейсом">Запуск программы с графическим интерфейсом</h3>
+<p><code>./run_tk_convex.py</code></p>
+</body>
+</html>
